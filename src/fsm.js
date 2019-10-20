@@ -4,6 +4,7 @@ class FSM {
    * @param config
    */
   constructor(config) {
+    if (! config)  throw new Error
       this.state = config.initial;
       this.history = ['normal'];
       this.undoArr = [];
@@ -26,26 +27,21 @@ class FSM {
       this.history.push(state);
       return  this.state = state;
       
-    } else { 
-      return this.state = 'Error';
-    }
-    
+    } else throw new Error; 
   }
   /**
    * Changes state according to event transition rules.
    * @param event
    */
   trigger(event) {
-    if (this.state === 'Error') {
-      return this.state = 'Error'
+    if (this.state === Error) {
+      throw new Error
     }
     else if (event === 'study' || event === 'get_tired' || event === 'get_hungry' || event === 'eat' || event === 'get_up') {
     let result = config.states[this.state].transitions[event];
     this.history.push(result);
     return this.state = result;
-    } else {
-      return this.state = 'Error';
-    }
+    } else throw new Error
   }
 
   /**
